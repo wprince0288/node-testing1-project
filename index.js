@@ -137,9 +137,11 @@ class Car {
     const milesCanDrive = this.tank * this.mpg
     if (distance <= milesCanDrive) {
       this.odometer = this.odometer + distance
-      return this.odometer
+      this.tank = this.tank - (distance / this.mpg)
+    } else {
+      this.tank = 0
+      this.odometer = this.odometer + milesCanDrive
     }
-    this.odometer = this.odometer + milesCanDrive
     return this.odometer
   }
 
@@ -155,12 +157,14 @@ class Car {
    * focus.refuel(99) // returns 600 (tank only holds 20)
    */
   refuel(gallons) {
-   
+    if (gallons <= this.tankSize - this.tank) {
+      this.tank = this.tank + gallons
+    } else {
+      this.tank = this.tankSize
+    }
+    return this.tank * this.mpg
   }
 }
-const focus = new Car('focus', 20, 30)
-focus.drive(600)
-focus.drive(1)
 
 /**
  * [Exercise 7] Asynchronously resolves whether a number is even
@@ -176,7 +180,7 @@ focus.drive(1)
  * })
  */
 function isEvenNumberAsync(number) {
-  // ✨ implement
+  return number % 2 === 0 || false
 }
 
 module.exports = {
